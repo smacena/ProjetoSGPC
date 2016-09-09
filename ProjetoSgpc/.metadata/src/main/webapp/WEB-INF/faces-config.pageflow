@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14689946464630" configfile="/ProjetoSgpc/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" comment="Regra de navegação para operação de login" x="338" y="178" id="pf14691852480080" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf14691852480081 pf14691852480082" inlinks="pf14691852480082 pf14691852480093 pf14691852480094" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="home.xhtml" x="554" y="178" id="pf14691852480095" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14691852480081" path="/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" comment="Regra de navegação para operação de logout" x="122" y="178" id="pf14691852480096" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14691852480093 pf14691852480094" path="/*"/>
+  <links id="pf14691852480081" target="pf14691852480095" source="pf14691852480080" outcome="login_sucesso" redirect="true"/>
+  <links id="pf14691852480093" target="pf14691852480080" source="pf14691852480096" outcome="logout" redirect="true"/>
+  <links id="pf14691852480094" target="pf14691852480080" source="pf14691852480096" outcome="sessao_invalida" redirect="true"/>
+  <links id="pf14691852480082" target="pf14691852480080" source="pf14691852480080" outcome="login_falha" redirect="true">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+</pageflow:Pageflow>
