@@ -70,7 +70,7 @@
                     </p:commandButton>   
 
  
-    				<p:commandButton icon="ui-icon-trash" actionListener="#{mbMantemUsuario.excluir(usu)}" process="@form" update="template_content:form:tabela">
+    				<p:commandButton icon="ui-icon-trash" actionListener="#{mbMantemUsuario.excluir(usu)}" process="@form" update="template_content:form:tabela" title="Excluir">
         				<p:confirm header="Confirmação" message="Deseja realmente excluir este registro?" icon="ui-icon-alert" />
     				</p:commandButton>
  
