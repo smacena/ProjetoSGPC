@@ -1,6 +1,7 @@
 package sgpc.servicos;
 
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.dao.DaoFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,19 @@ public class ServicoCarregarUsuario extends ServicoCarga<Usuario> {
     
     if (criterios != null && criterios.length == 2) {
       Usuario usuario = new Usuario();
-      usuario.setUsername(criterios[0]);
+      UsuarioId id    = new UsuarioId(criterios[0], criterios[1]);
+      
+      usuario.setId(id);
+      usuarios = DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
+              getUsuarioDao().consultarUsuario(true,usuario.getId().getUsername(), 
+              usuario.getId().getSenha());
+      
+/*    usuario.setUsername(criterios[0]);
       usuario.setSenha(criterios[1]);
       
       usuarios = DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
               getUsuarioDao().consultarUsuario(true,usuario.getUsername(), 
-              usuario.getSenha());
+              usuario.getSenha());*/
     }
     return usuarios;
   }

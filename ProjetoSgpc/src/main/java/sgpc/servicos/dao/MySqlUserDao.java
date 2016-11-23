@@ -1,6 +1,9 @@
 package sgpc.servicos.dao;
 
+import sgpc.domain.TipoUsuario;
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,17 +29,19 @@ public class MySqlUserDao implements UsuarioDao {
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(MySqlDaoFactory.lerPropriedade("SALVAR_USUARIO"));
-			ps.setString(1, usuario.getUsername());
-			ps.setString(2, usuario.getSenha());
+			ps.setString(1, usuario.getId().getUsername());
+			ps.setString(2, usuario.getId().getSenha());
 			ps.setString(3, usuario.getEmail());
-			if (usuario.getTipo() == usuario.getTipo_AdmB()) {
+/*			if (usuario.getTipo() == usuario.getTipo_AdmB()) {
 				tipo = usuario.getTipo_Adm();
 			} else if (usuario.getTipo() == usuario.getTipo_FuncB()) {
 				tipo = usuario.getTipo_Func();
 			} else {
 				tipo = usuario.getTipo_Con();
 			}
-			ps.setString(4, tipo);
+			ps.setString(4, tipo);*/
+			
+			ps.setString(4, usuario.getTipoUsuario().getTipo());
 
 			if (ps.executeUpdate() > 0) {
 				adicionado = true;
@@ -59,7 +64,7 @@ public class MySqlUserDao implements UsuarioDao {
       PreparedStatement ps = conn.
               prepareStatement(MySqlDaoFactory.lerPropriedade("ATUALIZAR_STATUS_USUARIO"));
       ps.setByte(1, usuario.getStatus());
-      ps.setString(2, usuario.getUsername());
+      ps.setString(2, usuario.getId().getUsername());
 
       if (ps.executeUpdate() > 0) {
         atualizado = true;
@@ -81,8 +86,8 @@ public class MySqlUserDao implements UsuarioDao {
 	    try {
 	      PreparedStatement ps = conn.
 	              prepareStatement(MySqlDaoFactory.lerPropriedade("ATUALIZAR_STATUS_USUARIOSENHA"));
-	      ps.setString(1, usuario.getSenha()); /*senha*/
-	      ps.setString(2, usuario.getUsername());
+	      ps.setString(1, usuario.getId().getSenha()); /*senha*/
+	      ps.setString(2, usuario.getId().getUsername());
 
 	      if (ps.executeUpdate() > 0) {
 	        atualizado = true;
@@ -97,7 +102,7 @@ public class MySqlUserDao implements UsuarioDao {
   
   public boolean atualizarUsuarioCampo(Usuario usuario) {
 	    boolean atualizado = false;
-        String tipo;
+        /*String tipo;*/
         
 	    DaoFactory fabrica = DaoFactory.getFactory(DaoFactory.MYSQL);
 	    Connection conn = fabrica.criarConexao();
@@ -107,7 +112,7 @@ public class MySqlUserDao implements UsuarioDao {
 	              prepareStatement(MySqlDaoFactory.lerPropriedade("ATUALIZAR_STATUS_USUARIOCAMPOS"));
 	      ps.setString(1, usuario.getEmail());
 	      
-		  if (usuario.getTipo() == usuario.getTipo_AdmB()) {
+/*		  if (usuario.getTipo() == usuario.getTipo_AdmB()) {
 				tipo = usuario.getTipo_Adm();
 			} else if (usuario.getTipo() == usuario.getTipo_FuncB()) {
 				tipo = usuario.getTipo_Func();
@@ -115,9 +120,10 @@ public class MySqlUserDao implements UsuarioDao {
 				tipo = usuario.getTipo_Con();
 			}
 			
-	      ps.setString(2, tipo);
-	      ps.setString(3, usuario.getUsername());
-	      ps.setString(4, usuario.getSenha());
+	      ps.setString(2, tipo);*/
+	      ps.setString(2, usuario.getTipoUsuario().getTipo());
+	      ps.setString(3, usuario.getId().getUsername());
+	      ps.setString(4, usuario.getId().getSenha());
 
 	      if (ps.executeUpdate() > 0) {
 	        atualizado = true;
@@ -139,8 +145,8 @@ public class MySqlUserDao implements UsuarioDao {
 	    try {
 	      PreparedStatement ps = conn.
 	              prepareStatement(MySqlDaoFactory.lerPropriedade("DELETAR_USUARIO"));
-	      ps.setString(1, usuario.getUsername());
-	      ps.setString(2, usuario.getSenha());
+	      ps.setString(1, usuario.getId().getUsername());
+	      ps.setString(2, usuario.getId().getSenha());
 
 	      if (ps.executeUpdate() > 0) {
 	    	  deletado = true;
@@ -159,7 +165,10 @@ public class MySqlUserDao implements UsuarioDao {
     if (login && criterios.length == 2) {
       DaoFactory fabrica = DaoFactory.getFactory(DaoFactory.MYSQL);
       Connection conn = fabrica.criarConexao();
-        
+      
+	  TipoUsuario tipoUsuario = new TipoUsuario();  
+	  UsuarioId id = new UsuarioId();	
+	  
       try {
 
 	        PreparedStatement ps = conn.prepareStatement(
@@ -174,7 +183,42 @@ public class MySqlUserDao implements UsuarioDao {
           
           String tipo = resultados.getString("tipo");
           
+    	  id.setUsername(resultados.getString("username"));
+    	  id.setSenha(resultados.getString("senha"));
+    	  
           if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
+        	  
+        	  tipoUsuario.setTipo(Usuario.TIPO_ADMINISTRADOR);
+        	  tipoUsuario.setDescricao(Usuario.TIPO_ADMINISTRADOR);
+        	  
+              usuarios.add(new Usuario(id,
+            		                   tipoUsuario,
+            		                   resultados.getString("email"),
+            		                   resultados.getByte("status")));
+              
+            }else if (Usuario.TIPO_FUNCIONARIO.equals(tipo)) {
+            	
+          	  tipoUsuario.setTipo(Usuario.TIPO_FUNCIONARIO);
+          	  tipoUsuario.setDescricao(Usuario.TIPO_FUNCIONARIO);
+          	  
+              usuarios.add(new Usuario(id,
+              		                   tipoUsuario,
+              		                   resultados.getString("email"),
+              		                   resultados.getByte("status")));	
+              
+			}else if (Usuario.TIPO_CONVIDADO.equals(tipo)) {
+				
+	          	  tipoUsuario.setTipo(Usuario.TIPO_CONVIDADO);
+	          	  tipoUsuario.setDescricao(Usuario.TIPO_CONVIDADO);
+	          	  
+	              usuarios.add(new Usuario(id,
+	              		                   tipoUsuario,
+	              		                   resultados.getString("email"),
+	              		                   resultados.getByte("status")));	
+	              
+			}          
+          
+/*          if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
             usuarios.add(new Usuario(resultados.getString("username"), 
                   resultados.getString("email"), resultados.getString("senha"),
                     Usuario.ADMINISTRADOR, resultados.getByte("status")));
@@ -186,7 +230,7 @@ public class MySqlUserDao implements UsuarioDao {
             usuarios.add(new Usuario(resultados.getString("username"), 
                   resultados.getString("email"), resultados.getString("senha"),
                     Usuario.CONVIDADO, resultados.getByte("status")));
-          }
+          }*/
         }
       } catch (SQLException ex) {
         Logger.getLogger(MySqlUserDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,6 +246,9 @@ public class MySqlUserDao implements UsuarioDao {
 		DaoFactory fabrica = DaoFactory.getFactory(DaoFactory.MYSQL);
 		Connection conn = fabrica.criarConexao();
 
+		TipoUsuario tipoUsuario = new TipoUsuario();  
+		UsuarioId id = new UsuarioId();
+		  
 		try {
 
 			PreparedStatement ps = conn.prepareStatement(MySqlDaoFactory.lerPropriedade(
@@ -212,7 +259,42 @@ public class MySqlUserDao implements UsuarioDao {
 
 				String tipo = resultados.getString("tipo");
 
-				if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
+				  id.setUsername(resultados.getString("username"));
+		    	  id.setSenha(resultados.getString("senha"));
+		    	  
+		          if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
+		        	  
+		        	  tipoUsuario.setTipo(Usuario.TIPO_ADMINISTRADOR);
+		        	  tipoUsuario.setDescricao(Usuario.TIPO_ADMINISTRADOR);
+		        	  
+		              usuarios.add(new Usuario(id,
+		            		                   tipoUsuario,
+		            		                   resultados.getString("email"),
+		            		                   resultados.getByte("status")));
+		              
+		            }else if (Usuario.TIPO_FUNCIONARIO.equals(tipo)) {
+		            	
+		          	  tipoUsuario.setTipo(Usuario.TIPO_FUNCIONARIO);
+		          	  tipoUsuario.setDescricao(Usuario.TIPO_FUNCIONARIO);
+		          	  
+		              usuarios.add(new Usuario(id,
+		              		                   tipoUsuario,
+		              		                   resultados.getString("email"),
+		              		                   resultados.getByte("status")));	
+		              
+					}else if (Usuario.TIPO_CONVIDADO.equals(tipo)) {
+						
+			          	  tipoUsuario.setTipo(Usuario.TIPO_CONVIDADO);
+			          	  tipoUsuario.setDescricao(Usuario.TIPO_CONVIDADO);
+			          	  
+			              usuarios.add(new Usuario(id,
+			              		                   tipoUsuario,
+			              		                   resultados.getString("email"),
+			              		                   resultados.getByte("status")));	
+			              
+					}
+				
+/*				if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
 					usuarios.add(new Usuario(resultados.getString("username"), resultados.getString("email"),
 							resultados.getString("senha"), Usuario.ADMINISTRADOR, resultados.getByte("status")));
 				} else if (Usuario.TIPO_FUNCIONARIO.equals(tipo)) {
@@ -221,7 +303,7 @@ public class MySqlUserDao implements UsuarioDao {
 				} else if (Usuario.TIPO_CONVIDADO.equals(tipo)) {
 					usuarios.add(new Usuario(resultados.getString("username"), resultados.getString("email"),
 							resultados.getString("senha"), Usuario.CONVIDADO, resultados.getByte("status")));
-				}
+				}*/
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(MySqlUserDao.class.getName()).log(Level.SEVERE, null, ex);

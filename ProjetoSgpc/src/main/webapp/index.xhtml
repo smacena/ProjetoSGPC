@@ -26,12 +26,12 @@
 				<p:panelGrid columns="2" styleClass="semBorda" >
 					<h:outputLabel value="#{messages.LOGIN_USERNAME}"
 						styleClass="required_labels" />
-					<p:inputText value="#{mbLogin.usuario.username}" size="45"
+					<p:inputText value="#{mbLogin.usuario.id.username}" size="45"
 						id="campo_usuario" />
 
 					<h:outputLabel value="#{messages.LOGIN_SENHA}"
 						styleClass="required_labels" />
-					<p:password value="#{mbLogin.usuario.senha}"
+					<p:password value="#{mbLogin.usuario.id.senha}"
 						goodLabel="#{messages.LOGIN_SENHA_MEDIA}" maxlength="20"
 						weakLabel="#{messages.LOGIN_SENHA_FRACA}"
 						strongLabel="#{messages.LOGIN_SENHA_FORTE}" id="campo_senha"

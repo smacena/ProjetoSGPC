@@ -20,13 +20,13 @@
 
          <h:panelGrid columns="2">
             <h:outputLabel for="nome" value="#{messages.LOGIN_USERNAME}" styleClass="crud_labels" />
-            <p:inputText id="nome" label="nome" value="#{mbMantemUsuario.usuario.username}" maxlength="14" size="40"  disabled="#{mbMantemUsuario.modoEdicao}"/>
+            <p:inputText id="nome" label="nome" value="#{mbMantemUsuario.usuario.id.username}" maxlength="14" size="40"  disabled="#{mbMantemUsuario.modoEdicao}"/>
             
             <h:outputLabel for="email" value="#{messages.LOGIN_EMAIL}" styleClass="crud_labels" />
             <p:inputText id="email" label="email" value="#{mbMantemUsuario.usuario.email}" maxlength="40" size="40"  />                    
   			
   			<h:outputLabel value="#{messages.LOGIN_SENHA}" styleClass="crud_labels" />
-			<p:password value="#{mbMantemUsuario.usuario.senha}"
+			<p:password value="#{mbMantemUsuario.usuario.id.senha}"
 						goodLabel="#{messages.LOGIN_SENHA_MEDIA}" maxlength="20"
 						weakLabel="#{messages.LOGIN_SENHA_FRACA}"
 						strongLabel="#{messages.LOGIN_SENHA_FORTE}" id="campo_senha"
@@ -39,7 +39,7 @@
 					    size="40" disabled="#{mbMantemUsuario.modoEdicao}"/>
 						
             <h:outputLabel for="tipo" value="#{messages.LOGIN_PERMISSAO}" styleClass="crud_labels" />
-            <p:selectOneMenu id="tipo" value="#{mbMantemUsuario.usuario.tipo}" style="width:150px">
+            <p:selectOneMenu id="tipo" value="#{mbMantemUsuario.usuario.tipoUsuario}" style="width:150px">
                <f:selectItem itemLabel="#{mbMantemUsuario.usuario.tipo_Adm}" itemValue="#{mbMantemUsuario.usuario.tipo_AdmB}" />
                <f:selectItem itemLabel="#{mbMantemUsuario.usuario.tipo_Func}" itemValue="#{mbMantemUsuario.usuario.tipo_FuncB}" />
                <f:selectItem itemLabel="#{mbMantemUsuario.usuario.tipo_Con}" itemValue="#{mbMantemUsuario.usuario.tipo_ConB}" />   

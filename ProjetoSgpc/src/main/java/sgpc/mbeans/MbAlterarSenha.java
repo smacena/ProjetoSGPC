@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.servlet.http.HttpSession;
 
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.ServicoAlterarSenha;
 
 
@@ -23,6 +24,7 @@ import sgpc.servicos.ServicoAlterarSenha;
 public class MbAlterarSenha implements Serializable {
 
 	private Usuario usuario;
+	private UsuarioId usuarioId;
 	private Usuario usuarioSessao;
 	private String senhaAntiga;
 	private String confirmaSenha;
@@ -36,13 +38,16 @@ public class MbAlterarSenha implements Serializable {
 	            FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 	    usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
 	    
-
-		usuario = new Usuario();	
+		usuario   = new Usuario();
 	}
 		
   public void AlterarSenha(){
 	  if (VerificarSenha()) {
-		  usuario.setUsername(usuarioSessao.getUsername());
+		  /* usuario.setUsername(usuarioSessao.getUsername());
+		   * usuario.setStatus(usuarioSessao.getStatus());*/
+		  usuarioId = new UsuarioId();
+		  
+		  usuarioId.setUsername(usuarioSessao.getId().getUsername());
 		  usuario.setStatus(usuarioSessao.getStatus());
 		  if(new ServicoAlterarSenha(usuario).alterar()){
 			    usuario = new Usuario();
@@ -60,10 +65,10 @@ public class MbAlterarSenha implements Serializable {
   }
   
   public boolean VerificarSenha(){
-	  if (usuarioSessao.getSenha().equals(getSenhaAntiga()) && 
-		  usuario.getSenha().equals(getConfirmaSenha())	&& 
+	  if (usuarioSessao.getId().getSenha().equals(getSenhaAntiga()) && 
+		  usuario.getId().getSenha().equals(getConfirmaSenha())	&& 
 		  getConfirmaSenha().length() > 0 &&
-		  getUsuario().getSenha().length() > 0
+		  getUsuario().getId().getSenha().length() > 0
 		  ) {
 		return true;
 	} else {

@@ -19,10 +19,12 @@ public class ServicoControleSessao extends ServicoVerificador {
   
   @Override
   public boolean executar() {
-    List<Usuario> usuarios = 
+/*    List<Usuario> usuarios = 
             DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-            getUsuarioDao().consultarUsuario(true, usuario.getUsername(), usuario.getSenha());
-    
+            getUsuarioDao().consultarUsuario(true, usuario.getUsername(), usuario.getSenha());*/
+	List<Usuario> usuarios = 
+	            DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
+	            getUsuarioDao().consultarUsuario(true, usuario.getId().getUsername(), usuario.getId().getSenha());    
     return (usuarios.size() > 0 && usuarios.get(0).getStatus() == Usuario.ATIVO);
   }
 }

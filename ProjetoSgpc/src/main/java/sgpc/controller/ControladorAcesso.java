@@ -24,7 +24,8 @@ public class ControladorAcesso {
     Usuario usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
     
     if (usuarioSessao != null) {
-      permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);
+    	permissaoAdministrador  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_ADMINISTRADOR));
+      /*permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);*/
     } else {
       permissaoAdministrador = false;
     }
@@ -37,12 +38,14 @@ public class ControladorAcesso {
     Usuario usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
     
     if (usuarioSessao != null) {
-      permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);
-      
+    	permissaoAdministrador  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_ADMINISTRADOR));
+      /*permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);*/
+    	      
       if (permissaoAdministrador) {
         permissaoFuncionario = true;
       } else {
-        permissaoFuncionario  = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);
+    	  permissaoFuncionario  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_FUNCIONARIO));
+        /*permissaoFuncionario  = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);*/
       }
     } else {
       permissaoFuncionario = false;
@@ -56,13 +59,17 @@ public class ControladorAcesso {
     Usuario usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
     
     if (usuarioSessao != null) {
-      permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);
-      permissaoFuncionario  = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);
+        permissaoAdministrador  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_ADMINISTRADOR));
+        permissaoFuncionario    = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_FUNCIONARIO));
+ 
+ /*   permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);
+      permissaoFuncionario    = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);*/
       
       if (permissaoAdministrador || permissaoFuncionario) {
         permissaoComum = true;
       } else {
-        permissaoComum  = (usuarioSessao.getTipo() == Usuario.CONVIDADO);
+    	  permissaoComum  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_CONVIDADO));
+        /*permissaoComum  = (usuarioSessao.getTipo() == Usuario.CONVIDADO);*/
       }
     } else {
       permissaoComum = false;
@@ -81,16 +88,22 @@ public class ControladorAcesso {
     
     if (usuarioSessao != null) {
       
-      Logger.getLogger("ControladorAcesso").log(Level.INFO, 
+/*      Logger.getLogger("ControladorAcesso").log(Level.INFO, 
               ">>>>>>>>>>>>>> Usuário da sessão tem tipo {0}", usuarioSessao.getTipo());
-      
-      permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);
+        permissaoAdministrador  = (usuarioSessao.getTipo() == Usuario.ADMINISTRADOR);      */
+    	
+      Logger.getLogger("ControladorAcesso").log(Level.INFO, 
+                ">>>>>>>>>>>>>> Usuário da sessão tem tipo {0}", usuarioSessao.getTipoUsuario().getTipo());      
+      permissaoAdministrador  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_ADMINISTRADOR));
       
       if (permissaoAdministrador) {
         permissaoFuncionario = true;
       } else {
-        permissaoFuncionario  = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);
-        permissaoComum  = (usuarioSessao.getTipo() == Usuario.CONVIDADO);
+          permissaoFuncionario    = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_FUNCIONARIO));  
+          permissaoComum  = (usuarioSessao.getTipoUsuario().getTipo().equals(Usuario.TIPO_CONVIDADO));
+          
+/*      permissaoFuncionario  = (usuarioSessao.getTipo() == Usuario.FUNCIONARIO);
+        permissaoComum  = (usuarioSessao.getTipo() == Usuario.CONVIDADO);*/
       }
     }
   }

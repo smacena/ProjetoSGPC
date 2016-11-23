@@ -16,8 +16,11 @@ public class ServicoLogin extends ServicoVerificador {
   }
   @Override
   public boolean executar() {
-    return (DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
+	    return (DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
+	            getUsuarioDao().consultarUsuario(true, usuario.getId().getUsername(), 
+	            usuario.getId().getSenha()).size() > 0);	  
+/*    return (DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
             getUsuarioDao().consultarUsuario(true, usuario.getUsername(), 
-            usuario.getSenha()).size() > 0);
+            usuario.getSenha()).size() > 0);*/
   }
 }

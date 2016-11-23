@@ -26,6 +26,8 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class MbLogin implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+	
   private static final String LOGIN_SUCESSO = "login_sucesso";
   public static final String LOGIN_FALHA = "login_falha";
   public static final String SESSAO_INEXISTENTE = "sessao_invalida";
@@ -60,7 +62,7 @@ public class MbLogin implements Serializable {
 				// Descobrindo o tipo de usuário que está tentando acessar o
 				// sistema.
 				Usuario usuarioLogado = new ServicoCarregarUsuario()
-						.carregarDados(usuario.getUsername(), usuario.getSenha()).get(0);
+						.carregarDados(usuario.getId().getUsername(), usuario.getId().getSenha()).get(0);
 				usuarioLogado.setStatus(Usuario.ATIVO);
 
 				HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext()
@@ -113,9 +115,9 @@ public class MbLogin implements Serializable {
    *          <code>false</code> caso contrário.
    */
   private boolean camposPreenchidos() {
-    return (usuario != null && usuario.getUsername() != null
-            && !"".equals(usuario.getUsername()) && usuario.getSenha() != null
-            && !"".equals(usuario.getSenha()));
+    return (usuario != null && usuario.getId().getUsername() != null
+            && !"".equals(usuario.getId().getUsername()) && usuario.getId().getSenha() != null
+            && !"".equals(usuario.getId().getSenha()));
   }
   
   /**
@@ -149,17 +151,26 @@ public class MbLogin implements Serializable {
     return controladorAcesso;
   }
   
-  public String tipoSessao(){ 
-    
-	if (usuarioSessaoTipo.getTipo() == usuario.getTipo_AdmB()) {
-		return usuario.TIPO_ADMINISTRADOR;
-	}else if (usuarioSessaoTipo.getTipo() == usuario.getTipo_FuncB()) {
-		return usuario.TIPO_FUNCIONARIO;
-	}else if (usuarioSessaoTipo.getTipo() == usuario.getTipo_ConB()) {
-		return usuario.TIPO_CONVIDADO;
-	}else {
-		return "";
+	public String tipoSessao() {
+
+		/*
+		 * if (usuarioSessaoTipo.getTipo() == usuario.getTipo_AdmB()) { return
+		 * usuario.TIPO_ADMINISTRADOR; }else if (usuarioSessaoTipo.getTipo() ==
+		 * usuario.getTipo_FuncB()) { return usuario.TIPO_FUNCIONARIO; }else if
+		 * (usuarioSessaoTipo.getTipo() == usuario.getTipo_ConB()) { return
+		 * usuario.TIPO_CONVIDADO; }else { return ""; }
+		 */
+		
+		if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Adm())) {
+			return usuario.getTipo_Adm();
+		} else if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Func())) {
+			return usuario.getTipo_Func();
+		} else if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Con())) {
+			return usuario.getTipo_Con();
+		} else {
+			return "";
+		}
 	}
-  }
+
   
 }

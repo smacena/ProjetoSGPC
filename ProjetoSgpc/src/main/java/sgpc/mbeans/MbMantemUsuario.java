@@ -104,8 +104,8 @@ public class MbMantemUsuario implements Serializable {
 	}
 
 	public boolean validarCampos() {
-		if (usuario.getEmail().length() > 0 && usuario.getUsername().length() > 0
-				&& usuario.getSenha().equals(confirmaSenha)) {
+		if (usuario.getEmail().length() > 0 && usuario.getId().getUsername().length() > 0
+				&& usuario.getId().getSenha().equals(confirmaSenha)) {
 			return true;
 		} else {
 			return false;
