@@ -11,7 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import sgpc.domain.TipoUsuario;
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.ServicoCarregarUsuario;
 import sgpc.servicos.ServicoMantemUsuario;
 
@@ -32,6 +34,8 @@ public class MbMantemUsuario implements Serializable {
 	private String confirmaSenha;
 	private Boolean modoEdicao;
 	private Usuario usuario;
+	private UsuarioId usuarioId;
+	private TipoUsuario tipoUsuario;
 	private List<Usuario> usuarios;  
 	
 	public MbMantemUsuario() {	
@@ -39,8 +43,11 @@ public class MbMantemUsuario implements Serializable {
 
 	@PostConstruct
 	public void inicializar() {
-		usuario = new Usuario();
-		modoEdicao=false;
+		usuario     = new Usuario();		
+		usuarioId   = new UsuarioId();
+		tipoUsuario = new TipoUsuario();
+		
+		modoEdicao = false;
 	
 		usuarios = new ArrayList<Usuario>();
 		carregaUsuario();
@@ -49,6 +56,7 @@ public class MbMantemUsuario implements Serializable {
 	public void cadastrar() {
 		if (validarEmail(usuario.getEmail())) {
 			if (modoEdicao) {
+				usuario.setTipoUsuario(tipoUsuario);
 				if (new ServicoMantemUsuario(usuario).alterar()) {
 					carregaUsuario();
 					FacesContext.getCurrentInstance().addMessage(null,
@@ -61,6 +69,8 @@ public class MbMantemUsuario implements Serializable {
 				limpar();
 			} else {
 				if (validarCampos()) {
+					usuario.setId(usuarioId);
+					usuario.setTipoUsuario(tipoUsuario);
 					if (new ServicoMantemUsuario(usuario).cadastrar()) {
 						carregaUsuario();
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -82,8 +92,11 @@ public class MbMantemUsuario implements Serializable {
 	}
 
 	public void limpar() {
-		usuario = new Usuario();
-		modoEdicao=false;
+		usuario     = new Usuario();
+		usuarioId   = new UsuarioId();
+		tipoUsuario = new TipoUsuario();
+		
+		modoEdicao  = false;
 	}
 
 	public void editar() {
@@ -104,8 +117,8 @@ public class MbMantemUsuario implements Serializable {
 	}
 
 	public boolean validarCampos() {
-		if (usuario.getEmail().length() > 0 && usuario.getId().getUsername().length() > 0
-				&& usuario.getId().getSenha().equals(confirmaSenha)) {
+		if (usuario.getEmail().length() > 0 && usuarioId.getUsername().length() > 0
+				&& usuarioId.getSenha().equals(confirmaSenha)) {
 			return true;
 		} else {
 			return false;
@@ -156,6 +169,22 @@ public class MbMantemUsuario implements Serializable {
 
 	public void setModoEdicao(Boolean modoEdicao) {
 		this.modoEdicao = modoEdicao;
+	}
+
+	public UsuarioId getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(UsuarioId usuarioId) {
+		this.usuarioId = usuarioId;
+	}
+
+	public TipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
 	}
 
 

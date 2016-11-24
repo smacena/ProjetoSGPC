@@ -39,16 +39,15 @@ public class MbAlterarSenha implements Serializable {
 	    usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
 	    
 		usuario   = new Usuario();
+		usuarioId = new UsuarioId();
 	}
 		
   public void AlterarSenha(){
 	  if (VerificarSenha()) {
-		  /* usuario.setUsername(usuarioSessao.getUsername());
-		   * usuario.setStatus(usuarioSessao.getStatus());*/
-		  usuarioId = new UsuarioId();
-		  
 		  usuarioId.setUsername(usuarioSessao.getId().getUsername());
+		  usuario.setId(usuarioId);
 		  usuario.setStatus(usuarioSessao.getStatus());
+		  
 		  if(new ServicoAlterarSenha(usuario).alterar()){
 			    usuario = new Usuario();
 		        FacesContext context = FacesContext.getCurrentInstance();  
@@ -66,9 +65,9 @@ public class MbAlterarSenha implements Serializable {
   
   public boolean VerificarSenha(){
 	  if (usuarioSessao.getId().getSenha().equals(getSenhaAntiga()) && 
-		  usuario.getId().getSenha().equals(getConfirmaSenha())	&& 
+		  usuarioId.getSenha().equals(getConfirmaSenha())	&& 
 		  getConfirmaSenha().length() > 0 &&
-		  getUsuario().getId().getSenha().length() > 0
+		  getUsuarioId().getSenha().length() > 0
 		  ) {
 		return true;
 	} else {
@@ -108,5 +107,14 @@ public class MbAlterarSenha implements Serializable {
 	public void setSenhaAntiga(String senhaAntiga) {
 		this.senhaAntiga = senhaAntiga;
 	}
+
+	public UsuarioId getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(UsuarioId usuarioId) {
+		this.usuarioId = usuarioId;
+	}
+	
 	
 }

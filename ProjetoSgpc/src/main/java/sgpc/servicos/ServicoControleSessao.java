@@ -1,6 +1,7 @@
 package sgpc.servicos;
 
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.dao.DaoFactory;
 import java.util.List;
 
@@ -11,20 +12,17 @@ import java.util.List;
  */
 public class ServicoControleSessao extends ServicoVerificador {
 
-  private Usuario usuario;
+  private UsuarioId usuarioId;
   
-  public ServicoControleSessao(Usuario usuario) {
-    this.usuario = usuario;
+  public ServicoControleSessao(UsuarioId usuarioId) {
+    this.usuarioId = usuarioId;
   }
   
   @Override
   public boolean executar() {
-/*    List<Usuario> usuarios = 
-            DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-            getUsuarioDao().consultarUsuario(true, usuario.getUsername(), usuario.getSenha());*/
 	List<Usuario> usuarios = 
 	            DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-	            getUsuarioDao().consultarUsuario(true, usuario.getId().getUsername(), usuario.getId().getSenha());    
+	            getUsuarioDao().consultarUsuario(true, usuarioId.getUsername(), usuarioId.getSenha());    
     return (usuarios.size() > 0 && usuarios.get(0).getStatus() == Usuario.ATIVO);
   }
 }

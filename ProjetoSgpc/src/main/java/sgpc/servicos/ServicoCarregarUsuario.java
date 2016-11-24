@@ -26,13 +26,6 @@ public class ServicoCarregarUsuario extends ServicoCarga<Usuario> {
       usuarios = DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
               getUsuarioDao().consultarUsuario(true,usuario.getId().getUsername(), 
               usuario.getId().getSenha());
-      
-/*    usuario.setUsername(criterios[0]);
-      usuario.setSenha(criterios[1]);
-      
-      usuarios = DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-              getUsuarioDao().consultarUsuario(true,usuario.getUsername(), 
-              usuario.getSenha());*/
     }
     return usuarios;
   }

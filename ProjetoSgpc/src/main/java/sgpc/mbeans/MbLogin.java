@@ -2,6 +2,7 @@ package sgpc.mbeans;
 
 import sgpc.controller.ControladorAcesso;
 import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.ServicoAtivarUsuario;
 import sgpc.servicos.ServicoCarregarUsuario;
 import sgpc.servicos.ServicoControleSessao;
@@ -35,6 +36,7 @@ public class MbLogin implements Serializable {
   public static final String USUARIO_SESSAO = "usuario";
   
   private Usuario usuario;
+  private UsuarioId usuarioId;
   private ControladorAcesso controladorAcesso;
   private Usuario usuarioSessaoTipo;
 
@@ -43,6 +45,7 @@ public class MbLogin implements Serializable {
   @PostConstruct
   public void inicializar() {
     usuario = new Usuario();
+    usuarioId = new UsuarioId();
     controladorAcesso = new ControladorAcesso();
     Logger.getLogger(MbLogin.class).log(Level.INFO, 
             ">>>>>>>>>>>>> Inicializando um bean de login.");
@@ -57,12 +60,12 @@ public class MbLogin implements Serializable {
 	public String doLogin() {
 
 		if (camposPreenchidos() && !isUsuarioLogado()) {
-			if (new ServicoLogin(usuario).executar()) {
+			if (new ServicoLogin(usuarioId).executar()) {
 
 				// Descobrindo o tipo de usuário que está tentando acessar o
 				// sistema.
 				Usuario usuarioLogado = new ServicoCarregarUsuario()
-						.carregarDados(usuario.getId().getUsername(), usuario.getId().getSenha()).get(0);
+						.carregarDados(usuarioId.getUsername(), usuarioId.getSenha()).get(0);
 				usuarioLogado.setStatus(Usuario.ATIVO);
 
 				HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext()
@@ -115,9 +118,12 @@ public class MbLogin implements Serializable {
    *          <code>false</code> caso contrário.
    */
   private boolean camposPreenchidos() {
-    return (usuario != null && usuario.getId().getUsername() != null
+	    return (usuarioId != null && usuarioId.getUsername() != null
+	            && !"".equals(usuarioId.getUsername()) && usuarioId.getSenha() != null
+	            && !"".equals(usuarioId.getSenha()));	  
+/*    return (usuario != null && usuario.getId().getUsername() != null
             && !"".equals(usuario.getId().getUsername()) && usuario.getId().getSenha() != null
-            && !"".equals(usuario.getId().getSenha()));
+            && !"".equals(usuario.getId().getSenha()));*/
   }
   
   /**
@@ -129,7 +135,7 @@ public class MbLogin implements Serializable {
    *         <code>false</code> caso contrário.
    */
   private boolean isUsuarioLogado() {
-    return new ServicoControleSessao(usuario).executar();
+    return new ServicoControleSessao(usuarioId).executar();
   }
   
   /**
@@ -172,5 +178,14 @@ public class MbLogin implements Serializable {
 		}
 	}
 
+	public UsuarioId getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(UsuarioId usuarioId) {
+		this.usuarioId = usuarioId;
+	}
+
+	
   
 }

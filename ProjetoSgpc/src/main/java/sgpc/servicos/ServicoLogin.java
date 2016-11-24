@@ -1,6 +1,6 @@
 package sgpc.servicos;
 
-import sgpc.domain.Usuario;
+import sgpc.domain.UsuarioId;
 import sgpc.servicos.dao.DaoFactory;
 
 /**
@@ -9,18 +9,15 @@ import sgpc.servicos.dao.DaoFactory;
  */
 public class ServicoLogin extends ServicoVerificador {
   
-  private Usuario usuario;
+  private UsuarioId usuarioId;
   
-  public ServicoLogin(Usuario usuario) {
-    this.usuario = usuario;
+  public ServicoLogin(UsuarioId usuarioId) {
+    this.usuarioId = usuarioId;
   }
   @Override
   public boolean executar() {
 	    return (DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-	            getUsuarioDao().consultarUsuario(true, usuario.getId().getUsername(), 
-	            usuario.getId().getSenha()).size() > 0);	  
-/*    return (DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
-            getUsuarioDao().consultarUsuario(true, usuario.getUsername(), 
-            usuario.getSenha()).size() > 0);*/
+	            getUsuarioDao().consultarUsuario(true, usuarioId.getUsername(), 
+	            usuarioId.getSenha()).size() > 0);	  
   }
 }
