@@ -31,7 +31,7 @@ public class ServicoCarregarUsuario extends ServicoCarga<Usuario> {
   }
 
 @Override
-public List<Usuario> carregarDadosUsuarios() {
+public List<Usuario> carregarDados() {
     List<Usuario> usuarios = new ArrayList<Usuario>();
     usuarios = DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).
             getUsuarioDao().consultarUsuarios();

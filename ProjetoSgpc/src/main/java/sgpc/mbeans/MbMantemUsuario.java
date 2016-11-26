@@ -47,6 +47,9 @@ public class MbMantemUsuario implements Serializable {
 		usuarioId   = new UsuarioId();
 		tipoUsuario = new TipoUsuario();
 		
+		/*usuario.setId(usuarioId);*/
+		usuario.setTipoUsuario(tipoUsuario);
+		
 		modoEdicao = false;
 	
 		usuarios = new ArrayList<Usuario>();
@@ -56,7 +59,6 @@ public class MbMantemUsuario implements Serializable {
 	public void cadastrar() {
 		if (validarEmail(usuario.getEmail())) {
 			if (modoEdicao) {
-				usuario.setTipoUsuario(tipoUsuario);
 				if (new ServicoMantemUsuario(usuario).alterar()) {
 					carregaUsuario();
 					FacesContext.getCurrentInstance().addMessage(null,
@@ -70,7 +72,6 @@ public class MbMantemUsuario implements Serializable {
 			} else {
 				if (validarCampos()) {
 					usuario.setId(usuarioId);
-					usuario.setTipoUsuario(tipoUsuario);
 					if (new ServicoMantemUsuario(usuario).cadastrar()) {
 						carregaUsuario();
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -96,6 +97,9 @@ public class MbMantemUsuario implements Serializable {
 		usuarioId   = new UsuarioId();
 		tipoUsuario = new TipoUsuario();
 		
+		/*usuario.setId(usuarioId);*/
+		usuario.setTipoUsuario(tipoUsuario);
+		
 		modoEdicao  = false;
 	}
 
@@ -113,7 +117,7 @@ public class MbMantemUsuario implements Serializable {
 	}
 
 	public void carregaUsuario() {
-		usuarios = new ServicoCarregarUsuario().carregarDadosUsuarios();
+		usuarios = new ServicoCarregarUsuario().carregarDados();
 	}
 
 	public boolean validarCampos() {

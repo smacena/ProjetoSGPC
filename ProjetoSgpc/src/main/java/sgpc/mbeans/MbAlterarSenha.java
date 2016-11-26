@@ -1,6 +1,8 @@
 package sgpc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +30,7 @@ public class MbAlterarSenha implements Serializable {
 	private Usuario usuarioSessao;
 	private String senhaAntiga;
 	private String confirmaSenha;
+	List<Usuario> senhaAnt;
 
 	public MbAlterarSenha() {
 	}
@@ -37,6 +40,7 @@ public class MbAlterarSenha implements Serializable {
 	    HttpSession sessao = (HttpSession) 
 	            FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 	    usuarioSessao = (Usuario) sessao.getAttribute(MbLogin.USUARIO_SESSAO);
+	    senhaAnt = new ArrayList<Usuario>();
 	    
 		usuario   = new Usuario();
 		usuarioId = new UsuarioId();
@@ -49,9 +53,9 @@ public class MbAlterarSenha implements Serializable {
 		  usuario.setStatus(usuarioSessao.getStatus());
 		  
 		  if(new ServicoAlterarSenha(usuario).alterar()){
-			    usuario = new Usuario();
 		        FacesContext context = FacesContext.getCurrentInstance();  
-		        context.addMessage(null, new FacesMessage(null, "Senha atualizada com sucesso!" ));
+		        context.addMessage(null, new FacesMessage(null, "Senha atualizada com sucesso." ));
+		        limparTela();
 		  }else {
 		        FacesContext context = FacesContext.getCurrentInstance();  
 		        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Erro ao alterar senha." )); 			
@@ -64,10 +68,11 @@ public class MbAlterarSenha implements Serializable {
   }
   
   public boolean VerificarSenha(){
-	  if (usuarioSessao.getId().getSenha().equals(getSenhaAntiga()) && 
-		  usuarioId.getSenha().equals(getConfirmaSenha())	&& 
-		  getConfirmaSenha().length() > 0 &&
-		  getUsuarioId().getSenha().length() > 0
+	  senhaAnt = new ServicoAlterarSenha(usuario).consultarUsuarioSenha(usuarioSessao.getId().getUsername(), senhaAntiga);
+	  if (senhaAnt.get(0).getId().getSenha().equals(senhaAntiga) && 
+		  usuarioId.getSenha().equals(confirmaSenha) && 
+		  confirmaSenha.length() > 0 &&
+		  usuarioId.getSenha().length() > 0
 		  ) {
 		return true;
 	} else {
@@ -79,7 +84,8 @@ public class MbAlterarSenha implements Serializable {
    * Limpa todos os dados da tela.
    */
   public void limparTela() {
-    this.usuario = new Usuario();
+    usuario = new Usuario();
+    usuarioId    = new UsuarioId();
 	senhaAntiga  = "";
 	confirmaSenha= "";
   }

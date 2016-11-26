@@ -159,9 +159,7 @@ public class MySqlUserDao implements UsuarioDao {
 	        ResultSet resultados = ps.executeQuery();
         
         if (resultados.next()) {
-          
-          /*String tipo = resultados.getString("tipo");*/
-          
+              
     	  id.setUsername(resultados.getString("username"));
     	  id.setSenha(resultados.getString("senha"));
     	  
@@ -172,38 +170,6 @@ public class MySqlUserDao implements UsuarioDao {
                   resultados.getString("email"),
                   resultados.getByte("status")));    	  
     	  
-          /*if (Usuario.TIPO_ADMINISTRADOR.equals(tipo)) {
-        	  
-        	  tipoUsuario.setTipo(Usuario.TIPO_ADMINISTRADOR);
-        	  tipoUsuario.setDescricao(Usuario.TIPO_ADMINISTRADOR);
-        	  
-              usuarios.add(new Usuario(id,
-            		                   tipoUsuario,
-            		                   resultados.getString("email"),
-            		                   resultados.getByte("status")));
-              
-            }else if (Usuario.TIPO_FUNCIONARIO.equals(tipo)) {
-            	
-          	  tipoUsuario.setTipo(Usuario.TIPO_FUNCIONARIO);
-          	  tipoUsuario.setDescricao(Usuario.TIPO_FUNCIONARIO);
-          	  
-              usuarios.add(new Usuario(id,
-              		                   tipoUsuario,
-              		                   resultados.getString("email"),
-              		                   resultados.getByte("status")));	
-              
-			}else if (Usuario.TIPO_CONVIDADO.equals(tipo)) {
-				
-	          	  tipoUsuario.setTipo(Usuario.TIPO_CONVIDADO);
-	          	  tipoUsuario.setDescricao(Usuario.TIPO_CONVIDADO);
-	          	  
-	              usuarios.add(new Usuario(id,
-	              		                   tipoUsuario,
-	              		                   resultados.getString("email"),
-	              		                   resultados.getByte("status")));	
-	              
-			}          
-          */
         }
       } catch (SQLException ex) {
         Logger.getLogger(MySqlUserDao.class.getName()).log(Level.SEVERE, null, ex);

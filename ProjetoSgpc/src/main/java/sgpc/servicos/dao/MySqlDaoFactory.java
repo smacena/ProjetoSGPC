@@ -41,7 +41,7 @@ class MySqlDaoFactory extends DaoFactory {
   public UsuarioDao getUsuarioDao() {
     return new MySqlUserDao();
   }
-
+  
   @Override
   Connection criarConexao() {
     Connection conexao = null;
@@ -53,6 +53,7 @@ class MySqlDaoFactory extends DaoFactory {
     }
     return conexao;
   }
+
 
 /*  @Override
   public DiariaDao getDiariaDao() {

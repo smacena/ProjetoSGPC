@@ -6,7 +6,6 @@ import java.util.List;
  * Contrato que estabelece o comportamento de serviços utilizados para importar
  * informação do banco de dados da aplicação.
  * 
- * @author pedrobrigatto
  */
 public abstract class ServicoCarga<T> extends Servico {
 
@@ -17,6 +16,6 @@ public abstract class ServicoCarga<T> extends Servico {
    */
   public abstract List<T> carregarDados(String ... criterios);  
   
-  public abstract List<T> carregarDadosUsuarios();  
+  public abstract List<T> carregarDados();  
 }
 

@@ -1,5 +1,7 @@
 package sgpc.servicos;
 
+import java.util.List;
+
 import sgpc.domain.Usuario;
 import sgpc.servicos.dao.DaoFactory;
 
@@ -27,6 +29,12 @@ public class ServicoAlterarSenha extends ServicoCadastro<Usuario> {
 	@Override
 	public boolean excluir() {
 		return false;
+	}
+	
+	public List<Usuario> consultarUsuarioSenha(String userName, String senha){
+		
+	  return DaoFactory.getFactory(propriedades.getProperty(TIPO_EIS)).getUsuarioDao()
+				.consultarUsuario(true, userName, senha);	
 	}
 
 }

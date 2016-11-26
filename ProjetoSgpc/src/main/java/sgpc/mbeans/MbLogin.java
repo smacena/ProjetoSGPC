@@ -142,7 +142,9 @@ public class MbLogin implements Serializable {
    * Limpa todos os dados da tela de login.
    */
   public void limparTela() {
-    this.usuario = new Usuario();
+    usuario = new Usuario();
+    usuarioId = new UsuarioId();
+    controladorAcesso = new ControladorAcesso();
   }
 
   public Usuario getUsuario() {
@@ -167,7 +169,7 @@ public class MbLogin implements Serializable {
 		 * usuario.TIPO_CONVIDADO; }else { return ""; }
 		 */
 		
-		if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Adm())) {
+/*		if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Adm())) {
 			return usuario.getTipo_Adm();
 		} else if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Func())) {
 			return usuario.getTipo_Func();
@@ -175,7 +177,9 @@ public class MbLogin implements Serializable {
 			return usuario.getTipo_Con();
 		} else {
 			return "";
-		}
+		}*/
+		
+		return usuario.getTipo_Adm();
 	}
 
 	public UsuarioId getUsuarioId() {

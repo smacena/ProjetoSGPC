@@ -34,8 +34,6 @@ public abstract class DaoFactory {
   }
 
   public abstract UsuarioDao getUsuarioDao();
-/*  public abstract DiariaDao getDiariaDao();
-  public abstract PacoteDao getPacoteDao();*/
 
   abstract Connection criarConexao();
 
