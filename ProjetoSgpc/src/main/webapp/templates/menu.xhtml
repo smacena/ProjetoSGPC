@@ -14,9 +14,9 @@
     </style>     
 </h:head>
 <h:body>
-  <h:form> 
+  <h:form id="form"> 
     
-    <p:growl id="messages" showDetail="false"/> 
+    <!-- <p:growl id="messages" showDetail="false"/>  -->
       <p:menu toggleable="false" >
         <p:submenu label="Cadastro">            
         </p:submenu>
@@ -29,7 +29,7 @@
         <p:submenu label="Relatório">
         </p:submenu> 
         <p:submenu>
-             <p:menuitem value="#{messages.TEMPLATE_MENU_PRINCIPAL}" action="/home.xhtml" update="messages" icon="ui-icon-home" />
+             <p:menuitem value="#{messages.TEMPLATE_MENU_PRINCIPAL}" action="/home.xhtml" update="form" icon="ui-icon-home" />
              <p:menuitem action="#{mbLogin.doLogout()}" value="#{messages.TEMPLATE_MENU_LOGOUT}"  ajax="false"   icon="ui-icon-close"/>
         </p:submenu>               
      </p:menu> 

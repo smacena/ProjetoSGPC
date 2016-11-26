@@ -12,12 +12,13 @@
                   background-color:transparent;"> 
                   
     <div>   
-    <h:form>
+    
  
       <ui:composition template="templates/template_base.xhtml">
         <ui:define name="page_content">
+          <h:form>
            <!-- <p:growl id="growl" showDetail="true" sticky="true"/> -->
-           <p:growl id="growl" />        
+           <!-- <p:growl id="growl" /> -->        
             
 			<p:panel header="ALTERAR SENHA">
 				<p:panelGrid columns="2" styleClass="semBorda">
@@ -39,16 +40,15 @@
 				</p:panelGrid>
 				<p:commandButton ajax="false"
 					value="#{messages.SENHA_COMANDO_SALVAR}" styleClass="comandos"
-					action="#{mbAlterarSenha.AlterarSenha()}" update="growl" icon="ui-icon-check"/>
+					action="#{mbAlterarSenha.AlterarSenha()}" update="form" icon="ui-icon-check"/>
 	
-				<p:commandButton ajax="true"
+				<p:commandButton ajax="false"
 					value="#{messages.SENHA_COMANDO_CANCELAR}" styleClass="comandos"
 					action="#{mbAlterarSenha.limparTela()}" update="campo_senha_antiga campo_senha_nova campo_senha_confirma"  icon="ui-icon-cancel"/>
 			</p:panel>	
-
+          </h:form>
         </ui:define>
       </ui:composition>
-    </h:form>
     </div> 
          
    </h:body>

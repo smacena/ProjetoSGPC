@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import sgpc.domain.Usuario;
 import sgpc.domain.UsuarioId;
@@ -67,18 +68,20 @@ public class MbAlterarSenha implements Serializable {
 	    
   }
   
-  public boolean VerificarSenha(){
-	  senhaAnt = new ServicoAlterarSenha(usuario).consultarUsuarioSenha(usuarioSessao.getId().getUsername(), senhaAntiga);
-	  if (senhaAnt.get(0).getId().getSenha().equals(senhaAntiga) && 
-		  usuarioId.getSenha().equals(confirmaSenha) && 
-		  confirmaSenha.length() > 0 &&
-		  usuarioId.getSenha().length() > 0
-		  ) {
-		return true;
-	} else {
-		return false;
+	public boolean VerificarSenha() {
+		try {
+			senhaAnt = new ServicoAlterarSenha(usuario).consultarUsuarioSenha(usuarioSessao.getId().getUsername(),
+					senhaAntiga);
+			if (senhaAnt.get(0).getId().getSenha().equals(senhaAntiga) && usuarioId.getSenha().equals(confirmaSenha)
+					&& confirmaSenha.length() > 0 && usuarioId.getSenha().length() > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
-  }
   
   /**
    * Limpa todos os dados da tela.
