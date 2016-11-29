@@ -82,13 +82,13 @@ public class MbMantemUsuario implements Serializable {
 					}
 					limpar();
 				} else {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Info", "Todos os campos devem ser preenchidos e a senha deve ser confirmada exatamente."));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Erro", "Todos os campos devem ser preenchidos e a senha deve ser confirmada exatamente."));
 				}
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Email inválido."));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Email inválido."));
 		}
 	}
 
