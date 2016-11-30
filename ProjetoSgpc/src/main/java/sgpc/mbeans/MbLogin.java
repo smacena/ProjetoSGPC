@@ -121,9 +121,6 @@ public class MbLogin implements Serializable {
 	    return (usuarioId != null && usuarioId.getUsername() != null
 	            && !"".equals(usuarioId.getUsername()) && usuarioId.getSenha() != null
 	            && !"".equals(usuarioId.getSenha()));	  
-/*    return (usuario != null && usuario.getId().getUsername() != null
-            && !"".equals(usuario.getId().getUsername()) && usuario.getId().getSenha() != null
-            && !"".equals(usuario.getId().getSenha()));*/
   }
   
   /**
@@ -159,27 +156,8 @@ public class MbLogin implements Serializable {
     return controladorAcesso;
   }
   
-	public String tipoSessao() {
-
-		/*
-		 * if (usuarioSessaoTipo.getTipo() == usuario.getTipo_AdmB()) { return
-		 * usuario.TIPO_ADMINISTRADOR; }else if (usuarioSessaoTipo.getTipo() ==
-		 * usuario.getTipo_FuncB()) { return usuario.TIPO_FUNCIONARIO; }else if
-		 * (usuarioSessaoTipo.getTipo() == usuario.getTipo_ConB()) { return
-		 * usuario.TIPO_CONVIDADO; }else { return ""; }
-		 */
-		
-/*		if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Adm())) {
-			return usuario.getTipo_Adm();
-		} else if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Func())) {
-			return usuario.getTipo_Func();
-		} else if (usuarioSessaoTipo.getTipoUsuario().getTipo().equals(usuario.getTipo_Con())) {
-			return usuario.getTipo_Con();
-		} else {
-			return "";
-		}*/
-		
-		return usuario.getTipo_Adm();
+	public String tipoSessao() {	
+		return usuarioSessaoTipo.getTipoUsuario().getTipo();
 	}
 
 	public UsuarioId getUsuarioId() {
